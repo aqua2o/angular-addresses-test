@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 main-col">
+      <h2>Add/Edit address</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="addEditAddress()">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" formControlName="fullName" class="form-control"
+            [ngClass]="{ 'is-invalid': f.fullName.touched && f.fullName.errors }" />
+          <div *ngIf="f.fullName.touched && f.fullName.errors">
+            <div *ngIf="f.fullName.errors.required" class="text-danger">First Name is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Zip Code</label>
+          <input type="text" formControlName="zipcode" class="form-control"
+            [ngClass]="{ 'is-invalid': f.zipcode.touched && f.zipcode.errors }" />
+          <div *ngIf="f.zipcode.touched && f.zipcode.errors">
+            <div *ngIf="f.zipcode.errors.required" class="text-danger">zipcode is required</div>
+            <div *ngIf="f.zipcode.errors.pattern" class="text-danger">zip code should start with ABC</div>
+            <div *ngIf="f.zipcode.errors.maxlength" class="text-danger">the zip code should contain five characters only</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <select formControlName="country" class="form-control"
+            [ngClass]="{ 'is-invalid': f.country.touched && f.country.errors }">
+            <option value="UK">UK</option>
+            <option value="IT">Italy</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="GR">Greece</option>
+          </select>
+          <div *ngIf="f.country.touched && f.country.errors">
+            <div *ngIf="f.country.errors.required" class="text-danger">country is required</div>
+          </div>
+        </div>
+        <button class="btn btn-dark" [disabled]="registerForm.invalid">Save</button>
+      </form>
+    </div>
+    <div class="col-md-6 main-col">
+      <h2>List of addresses</h2>
+      <ul class="list-group">
+        <li *ngFor="let address of addresses; let i = index" class="list-group-item">
+          <div class="row">
+            <div class="col-8">
+              <label>{{address.name}}, {{address.address.zip}}, {{address.address.country}}</label>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-warning" (click)="editAddress(address, i)">Edit</button>
+              <button class="btn btn-danger" (click)="destroyAddress(address)">Remove</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
